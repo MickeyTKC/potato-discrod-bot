@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 #my libs
 import fetch_data
-from reports import sectors
+from reports import sectors, market_breadth
 
 #env setup
 ENV = {
@@ -40,7 +40,12 @@ async def fetching(message):
     fetch_data.fetch_data()
     await message.channel.send("Updating data...")
     
-async def report(message):
+async def breadth_report(message):
+    market_breadth.create()
+    file = market_breadth.file_path
+    await message.channel.send("近五年，S&P500 長中短期市寛表現．Megu Megu (E)!!!", file=discord.File(file))
+    
+async def sectors_report(message):
     sectors.create()
     file = sectors.file_path
     await message.channel.send("近一年，美股行業報告", file=discord.File(file))
@@ -58,8 +63,10 @@ async def on_message(message):
             await ping(message)
         if message.content == prefix + "fecth":
             await fetching(message)
+        if message.content == prefix + "report.breadth":
+            await breadth_report(message)
         if message.content == prefix + "report.sectors":
-            await report(message)
+            await sectors_report(message)
             
 client.run(token)
 
