@@ -15,13 +15,15 @@ sectors_name = {
     'XLI': 'Industrials',
     'XLY': 'Consumer Discretionary'
 }
-
-#Read File
+source = "data/sectors.csv"
 file_path = "sectors.png"
-data = pd.read_csv("data/sectors.csv")
 report = {}
 
+
+
 def create():
+    #Read File
+    data = pd.read_csv(source)
     #Looping sector
     for sector in sectors:
         #Get Sector Data
